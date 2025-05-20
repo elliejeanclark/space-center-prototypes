@@ -6,6 +6,14 @@ let teamList = [
         priority: "Emergency",
         assignedSystem: "Turbolift",
         Status: "In Progress"
+    },
+    {
+        name: "Filler Team 2",
+        orders: "Fix the replicator",
+        teamMembers: ['Officer 4', 'Officer 5'],
+        priority: "High",
+        assignedSystem: "Replicator",
+        Status: "In Progress"
     }
 ];
 
@@ -30,7 +38,7 @@ export function init() {
             const teamDiv = document.createElement('div');
             teamDiv.className = 'team';
             teamDiv.innerHTML = `
-                <h3>${team.name}</h3>
+                <h4>${team.name}</h4>
                 <div id="teamAttributes">
                     <p>Orders: ${team.orders}</p>
                     <p>Assigned System: ${team.assignedSystem}</p>
