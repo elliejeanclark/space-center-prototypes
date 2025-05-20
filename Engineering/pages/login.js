@@ -7,10 +7,12 @@ export function init() {
     const logoutButton = document.getElementById('logoutButton');
     logoutButton.disabled = !isLoggedIn;
     const officerLoginInput = document.getElementById('officerLogin');
+
     loginButton.onclick = (event) => {
         event.preventDefault();
         setLoggedIn(true);
         updateDisabledButtons();
+        
         setOfficerLogin(officerLoginInput.value);
         loginButton.disabled = true;
         logoutButton.disabled = false;
@@ -29,8 +31,10 @@ export function init() {
         setLoggedIn(false);
         updateDisabledButtons();
         setOfficerLogin("");
+
         loginButton.disabled = false;
         logoutButton.disabled = true;
+        
         const welcomeMessage = document.getElementById('welcomeMessage');
         welcomeMessage.textContent = "You have logged out.";
     }
