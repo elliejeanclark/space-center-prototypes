@@ -1,0 +1,89 @@
+button {
+    background: linear-gradient(to right, #4a90a4, #60b0c8);
+    border: none;
+    color: white;
+    padding: 0.2rem 1rem;
+    margin: 0 0.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+}
+
+button:hover {
+    background: linear-gradient(to right, #60b0c8, #4a90a4);
+    transform: scale(1.03);
+    cursor: pointer;
+}
+
+button:disabled {
+    background: #3e4e5a;
+    color: #b8c9d1;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+#damageReportPage {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+#listOfSystems {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: flex-start;
+    margin-left: 50px;
+    margin-right: 100px;
+}
+
+#damagedSystemsHeading {
+    width: 275px;
+}
+
+#report {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-left: 5px;
+    margin-right: 50px;
+}
+
+#activeStep {
+    font-size: 1.2rem;
+}
+
+#activeStepContainer {
+    padding: 20px;
+    border: 2px solid white;
+    border-radius: 0.5rem;
+    width: 100%;
+    height: 70vh;
+}
+
+#damagedSystems {
+    display: flex;
+    flex-direction: column;
+}
+
+#system {
+    margin: 10px;
+}
+
+#buttonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+#reportContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-left: 5px;
+    margin-right: 50px;
+}

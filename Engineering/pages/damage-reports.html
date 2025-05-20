@@ -1,14 +1,21 @@
-<div>
+<div id="damageReportPage">
     <div id="listOfSystems">
-        <h2>Damaged Systems</h2>
+        <h2 id="damagedSystemsHeading">Damaged Systems</h2>
         <ul id="damagedSystems">
             <button id="system">Turbolift</button>
+            <button id="system">Warp Core</button>
         </ul>
     </div>
     <div id="report">
-        <h2>Report</h2>
-        <p id="activeStep"></p>
-        <button id="previousStep">Previous</button>
-        <button id="nextStep">Next</button>
+        <h2>Damage Report</h2>
+        <div id="reportContainer">
+            <div id="activeStepContainer">
+                <p id="activeStep"></p>
+            </div>
+            <div id="buttonContainer">
+                <button id="previousStep">Previous</button>
+                <button id="nextStep">Next</button>
+            </div>
+        </div>
     </div>
 </div>
