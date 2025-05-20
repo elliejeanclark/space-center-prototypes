@@ -16,7 +16,7 @@ export function updateDisabledButtons() {
     });
 }
 
-const pagesWithJs = new Set(['login.html', 'damage-reports.html']);
+const pagesWithJs = new Set(['login.html', 'damage-reports.html', 'teams.html']);
 
 document.addEventListener('DOMContentLoaded', () => {
     const contentDiv = document.getElementById('content');
