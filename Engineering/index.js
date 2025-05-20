@@ -1,7 +1,19 @@
 export let isLoggedIn = false;
+export let officerLogin = "";
 
 export function setLoggedIn(value) {
     isLoggedIn = value;
+}
+
+export function setOfficerLogin(value) {
+    officerLogin = value;
+}
+
+export function updateDisabledButtons() {
+    const buttons = document.querySelectorAll('nav button');
+    buttons.forEach(button => {
+        button.disabled = !isLoggedIn;
+    });
 }
 
 const pagesWithJs = new Set(['login.html']);
