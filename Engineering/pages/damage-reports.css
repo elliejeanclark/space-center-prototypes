@@ -52,6 +52,7 @@ button:disabled {
 
 #activeStep {
     font-size: 1.2rem;
+    overflow-y: auto;
 }
 
 #activeStepContainer {
@@ -86,4 +87,25 @@ button:disabled {
     width: 100%;
     margin-left: 5px;
     margin-right: 50px;
+}
+
+#reportHeading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+#stepStatusContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#reportColorBlock {
+    width: 20px;
+    height: 20px;
+    background-color: #a44a4a;
+    margin-bottom: 8px;
+    border-radius: 2px;
 }
