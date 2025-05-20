@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ellie's Engineering Station</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <nav>
+        <button data-page="login.html">Login</button>
+        <button data-page="damage-reports.html">Damage Reports</button>
+        <button data-page="teams.html">Teams</button>
+    </nav>
+
+    <div id="content">Loading...</div>
+
+    <script>
+        const contentDiv = document.getElementById('content');
+
+        async function loadPage(page) {
+            try {
+            const response = await fetch(`pages/${page}`);
+            if (!response.ok) throw new Error('Page not found');
+            const html = await response.text();
+            contentDiv.innerHTML = html;
+            } catch (e) {
+            contentDiv.innerHTML = `<p>Error loading page.</p>`;
+            }
+        }
+
+        loadPage('login.html');
+
+        document.querySelectorAll('nav button').forEach(button => {
+            button.addEventListener('click', () => {
+                const page = button.getAttribute('data-page');
+                loadPage(page);
+            });
+        });
+    </script>
+
+</body>
+</html>

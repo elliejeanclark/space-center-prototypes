@@ -1,0 +1,9 @@
+nav button { 
+    margin: 0 5px; 
+}
+
+#content { 
+    padding: 20px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
