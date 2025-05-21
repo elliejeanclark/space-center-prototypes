@@ -17,6 +17,22 @@ let teamList = [
     }
 ];
 
+let systems = [
+    "Turbolift",
+    "Replicator",
+    "Warp Drive",
+    "Impulse Drive",
+    "Phaser Array",
+    "Shield Generators",
+    "Transporter",
+    "Life Support",
+    "Environmental Controls",
+    "Sensors",
+    "Communications",
+    "Computer Core",
+    "Tractor Beam"
+]
+
 let completeOfficerList = [
     "Officer 1",
     "Officer 2",
@@ -81,19 +97,29 @@ const views = {
             <label for="teamOrders">Orders:</label>
             <input type="text" id="teamOrders" required>
             <label for="assignedSystem">Assigned System:</label>
-            <input type="text" id="assignedSystem" required>
+            <select id="assignedSystem">
+                <option value="" selected disabled>Select System</option>
+                ${systems.map(system => `<option value="${system}">${system}</option>`).join('')}
+            </select>
             <label for="teamPriority">Priority:</label>
-            <input type="text" id="teamPriority" required>
-            <label for="teamStatus">Status:</label>
-            <input type="text" id="teamStatus" required>
+            <select id="teamPriority">
+                <option value="" selected disabled>Select Priority</option>
+                <option value="Emergency">Emergency</option>
+                <option value="Critical">Critical</option>
+                <option value="Normal">Normal</option>
+                <option value="Low">Low</option>
+            </select>
             <label for="availableOfficers">Available Officers</label>
-            <select id="availableOfficers" multiple>
+            <select id="availableOfficers">
+                <option value="" selected disabled>Select Officers</option>
                 ${unassignedOfficers.map(officer => `<option value="${officer}">${officer}</option>`).join('')}
             </select>
             <button type="button" id="addOfficerButton">Add Officer</button>
             <div id="selectedOfficersContainer">
-                <select id="selectedOfficers" multiple>
+                <label for="selectedOfficers">Selected Officers</label>
+                <select id="selectedOfficers">
                 </select>
+                <button type="button" id="removeOfficerButton">Remove Officer</button>
             </div>
             <button id="createTeamButton">Create Team</button>
         </form>
@@ -148,22 +174,42 @@ export function init() {
     }
 
     function loadCreateTeamView() {
-        const createTeamForm = document.getElementById('createTeamForm');
         const addOfficerButton = document.getElementById('addOfficerButton');
         const selectedOfficers = document.getElementById('selectedOfficers');
         const availableOfficers = document.getElementById('availableOfficers');
 
+        if (availableOfficers.options[availableOfficers.selectedIndex].value === "") {
+            addOfficerButton.disabled = true;
+        }
+
+        availableOfficers.addEventListener('change', () => {
+            addOfficerButton.disabled = false;
+        });
+
         addOfficerButton.onclick = () => {
-            const seletedOfficer = availableOfficers.options[availableOfficers.selectedIndex].value;
-            console.log(seletedOfficer);
-            if (unassignedOfficers.includes(seletedOfficer)) {
-                assignedOfficers.push(seletedOfficer);
+            const selectedOfficer = availableOfficers.options[availableOfficers.selectedIndex].value;
+            console.log(selectedOfficer);
+            if (unassignedOfficers.includes(selectedOfficer)) {
+                assignedOfficers.push(selectedOfficer);
                 availableOfficers.remove(availableOfficers.selectedIndex);
-                unassignedOfficers.splice(unassignedOfficers.indexOf(seletedOfficer), 1);
+                unassignedOfficers.splice(unassignedOfficers.indexOf(selectedOfficer), 1);
                 const option = document.createElement('option');
-                option.value = seletedOfficer;
-                option.text = seletedOfficer;
+                option.value = selectedOfficer;
+                option.text = selectedOfficer;
                 selectedOfficers.appendChild(option);
+            }
+        }
+
+        const removeOfficerButton = document.getElementById('removeOfficerButton');
+        removeOfficerButton.onclick = () => {
+            const selectedOfficer = selectedOfficers.options[selectedOfficers.selectedIndex].value;
+            if (assignedOfficers.includes(selectedOfficer)) {
+                unassignedOfficers.push(selectedOfficer);
+                assignedOfficers.splice(assignedOfficers.indexOf(selectedOfficer), 1);
+                const option = document.createElement('option');
+                option.value = selectedOfficer;
+                option.text = selectedOfficer;
+                availableOfficers.appendChild(option);
             }
         }
     }
