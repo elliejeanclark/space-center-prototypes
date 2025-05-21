@@ -148,9 +148,15 @@ export function init() {
             teamDiv.innerHTML = `
                 <h4>${team.name}</h4>
                 <div id="teamAttributes">
-                    <p>Orders: ${team.orders}</p>
-                    <p>Assigned System: ${team.assignedSystem}</p>
-                    <p>Status: ${team.Status}</p>
+                    <div id="orders">
+                        <p>Orders: ${team.orders}</p>
+                    </div>
+                    <div id="assignedSystem">
+                        <p>Assigned System: ${team.assignedSystem}</p>
+                    </div>
+                    <div id="status">
+                        <p>Status: ${team.Status}</p>
+                    </div>
                 </div>
             `;
 
