@@ -25,6 +25,14 @@ const views = {
         <div id="teamContainer">
         </div>
         <button id="createTeamButton">Create New Team</button>
+    </div>`,
+    teamView: `
+    <div id="teamView">
+        <div id="activeTeamContainer">
+        </div>
+        <div id="backButtonContainer">
+            <button id="backButton" type="button">Back to Active Teams</button>
+        </div>
     </div>`
 }
 
@@ -45,8 +53,30 @@ export function init() {
                     <p>Status: ${team.Status}</p>
                 </div>
             `;
+
+            teamDiv.onclick = () => {
+                loadTeamView(team);
+            }
+
             teamContainer.appendChild(teamDiv);
         });
+    }
+
+    function loadTeamView(team) {
+        loadView('teamView');
+        const activeTeamContainer = document.getElementById('activeTeamContainer');
+        activeTeamContainer.innerHTML = `
+            <h2>${team.name}</h2>
+            <p>Orders: ${team.orders}</p>
+            <p>Assigned System: ${team.assignedSystem}</p>
+            <p>Priority: ${team.priority}</p>
+            <p>Status: ${team.Status}</p>
+            <p>Team Members: ${team.teamMembers.join(', ')}</p>
+        `;
+        const backButton = document.getElementById('backButton');
+        backButton.onclick = () => {
+            loadView('activeTeams');
+        };
     }
 
     function loadView(viewName) {
