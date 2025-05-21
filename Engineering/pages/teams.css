@@ -9,6 +9,8 @@
     padding-right: 20px;
     margin: 20px;
     cursor: pointer;
+    background-color: #f0f6f8;
+    color: #2e3c42;
 }
 
 #teamAttributes {
@@ -16,4 +18,17 @@
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
+}
+
+#activeTeamContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 2px solid #ccc;
+    border-radius: 2px;
+    padding: 10px;
+    padding-left: 20px;
+    margin-bottom: 20px;
+    background-color: #f0f6f8;
+    color: #2e3c42;
 }
