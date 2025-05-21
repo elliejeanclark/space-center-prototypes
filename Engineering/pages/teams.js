@@ -92,36 +92,48 @@ const views = {
     <div id="createTeamView">
         <h2>Create New Team</h2>
         <form id="createTeamForm">
-            <label for="teamName">Team Name:</label>
-            <input type="text" id="teamName" required>
-            <label for="teamOrders">Orders:</label>
-            <input type="text" id="teamOrders" required>
-            <label for="assignedSystem">Assigned System:</label>
-            <select id="assignedSystem">
-                <option value="" selected disabled>Select System</option>
-                ${systems.map(system => `<option value="${system}">${system}</option>`).join('')}
-            </select>
-            <label for="teamPriority">Priority:</label>
-            <select id="teamPriority">
-                <option value="" selected disabled>Select Priority</option>
-                <option value="Emergency">Emergency</option>
-                <option value="Critical">Critical</option>
-                <option value="Normal">Normal</option>
-                <option value="Low">Low</option>
-            </select>
-            <label for="availableOfficers">Available Officers</label>
-            <select id="availableOfficers">
-                <option value="" selected disabled>Select Officers</option>
-                ${unassignedOfficers.map(officer => `<option value="${officer}">${officer}</option>`).join('')}
-            </select>
-            <button type="button" id="addOfficerButton">Add Officer</button>
-            <div id="selectedOfficersContainer">
-                <label for="selectedOfficers">Selected Officers</label>
-                <select id="selectedOfficers" multiple>
-                </select>
-                <button type="button" id="removeOfficerButton">Remove Officer</button>
+            <div id="firstSection">
+                <label for="teamName">Team Name:</label>
+                <input type="text" id="teamName" required>
             </div>
-            <button id="createTeamButton">Create Team</button>
+            <div id="secondSection">
+                <div id="ordersContainer">
+                    <label for="teamOrders">Orders:</label>
+                    <textarea type="text" id="teamOrders" required></textarea>
+                </div>
+                <div id="systemPriority">
+                    <label for="assignedSystem">Assigned System:</label>
+                    <select id="assignedSystem">
+                        <option value="" selected disabled>Select System</option>
+                        ${systems.map(system => `<option value="${system}">${system}</option>`).join('')}
+                    </select>
+                    <label for="teamPriority">Priority:</label>
+                    <select id="teamPriority">
+                        <option value="" selected disabled>Select Priority</option>
+                        <option value="Emergency">Emergency</option>
+                        <option value="Critical">Critical</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </div>
+                <div id="availableOfficersContainer">
+                    <label for="availableOfficers">Available Officers</label>
+                    <select id="availableOfficers">
+                        <option value="" selected disabled>Select Officers</option>
+                        ${unassignedOfficers.map(officer => `<option value="${officer}">${officer}</option>`).join('')}
+                    </select>
+                    <button type="button" id="addOfficerButton">Add Officer</button>
+                </div>
+                <div id="selectedOfficersContainer">
+                    <label for="selectedOfficers">Assigned Officers</label>
+                    <select id="selectedOfficers" multiple>
+                    </select>
+                    <button type="button" id="removeOfficerButton">Remove Officer</button>
+                </div>
+            </div>
+            <div id="createTeamButtonContainer">
+                <button id="createTeamButton">Create Team</button>
+            </div>
         </form>
     </div>`
 }
@@ -252,7 +264,6 @@ export function init() {
                     teamMembers: assignedOfficers
                 };
                 addTeam(newTeam);
-                loadView('activeTeams');
             } else {
                 alert("Please fill in all fields.");
             }

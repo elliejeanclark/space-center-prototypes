@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: flex-start;
     border: 2px solid #ccc;
-    border-radius: 2px;
+    border-radius: 5px;
     padding: 10px;
     padding-left: 20px;
     padding-right: 20px;
@@ -25,10 +25,111 @@
     flex-direction: column;
     align-items: flex-start;
     border: 2px solid #ccc;
-    border-radius: 2px;
+    border-radius: 5px;
     padding: 10px;
     padding-left: 20px;
     margin-bottom: 20px;
     background-color: #f0f6f8;
     color: #2e3c42;
+}
+
+#firstSection {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+#teamName {
+    border-radius: 5px;
+    background-color: #f0f6f8;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#secondSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#systemPriority {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#teamOrders {
+    border-radius: 5px;
+    background-color: #f0f6f8;
+    width: 60vh;
+    height: 20vh;
+    padding: 10px;
+}
+
+#ordersContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-right: 30px;
+    margin-bottom: 20px;
+}
+
+#assignedSystem {
+    margin-top: 5px;
+    padding: 5px;
+    margin-bottom: 20px;
+    background-color: #f0f6f8;
+    border-radius: 5px;
+}
+
+#teamPriority {
+    padding: 5px;
+    background-color: #f0f6f8;
+    border-radius: 5px;
+}
+
+#availableOfficersContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: 30px;
+}
+
+#availableOfficers {
+    border-radius: 5px;
+    background-color: #f0f6f8;
+    padding: 5px;
+    height: 30px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+#selectedOfficersContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#selectedOfficers {
+    border-radius: 5px;
+    background-color: #f0f6f8;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    width: 200px;
+}
+
+#createTeamButtonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
 }
