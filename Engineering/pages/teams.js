@@ -178,6 +178,7 @@ export function init() {
         const removeOfficerButton = document.getElementById('removeOfficerButton');
         const selectedOfficers = document.getElementById('selectedOfficers');
         const availableOfficers = document.getElementById('availableOfficers');
+        const createTeamButton = document.getElementById('createTeamButton');
         let countAssigned = 0;
 
         removeOfficerButton.disabled = true;
@@ -231,6 +232,29 @@ export function init() {
                 if (countAssigned < completeOfficerList.length) {
                     addOfficerButton.disabled = false;
                 }
+            }
+        }
+
+        createTeamButton.onclick = (event) => {
+            event.preventDefault();
+            const teamName = document.getElementById('teamName').value;
+            const teamOrders = document.getElementById('teamOrders').value;
+            const assignedSystem = document.getElementById('assignedSystem').value;
+            const teamPriority = document.getElementById('teamPriority').value;
+
+            if (teamName && teamOrders && assignedSystem && teamPriority && countAssigned > 0) {
+                const newTeam = {
+                    name: teamName,
+                    orders: teamOrders,
+                    assignedSystem: assignedSystem,
+                    priority: teamPriority,
+                    Status: "In Progress",
+                    teamMembers: assignedOfficers
+                };
+                addTeam(newTeam);
+                loadView('activeTeams');
+            } else {
+                alert("Please fill in all fields.");
             }
         }
     }
