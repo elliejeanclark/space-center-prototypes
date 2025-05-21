@@ -117,7 +117,7 @@ const views = {
             <button type="button" id="addOfficerButton">Add Officer</button>
             <div id="selectedOfficersContainer">
                 <label for="selectedOfficers">Selected Officers</label>
-                <select id="selectedOfficers">
+                <select id="selectedOfficers" multiple>
                 </select>
                 <button type="button" id="removeOfficerButton">Remove Officer</button>
             </div>
@@ -175,8 +175,12 @@ export function init() {
 
     function loadCreateTeamView() {
         const addOfficerButton = document.getElementById('addOfficerButton');
+        const removeOfficerButton = document.getElementById('removeOfficerButton');
         const selectedOfficers = document.getElementById('selectedOfficers');
         const availableOfficers = document.getElementById('availableOfficers');
+        let countAssigned = 0;
+
+        removeOfficerButton.disabled = true;
 
         if (availableOfficers.options[availableOfficers.selectedIndex].value === "") {
             addOfficerButton.disabled = true;
@@ -188,7 +192,6 @@ export function init() {
 
         addOfficerButton.onclick = () => {
             const selectedOfficer = availableOfficers.options[availableOfficers.selectedIndex].value;
-            console.log(selectedOfficer);
             if (unassignedOfficers.includes(selectedOfficer)) {
                 assignedOfficers.push(selectedOfficer);
                 availableOfficers.remove(availableOfficers.selectedIndex);
@@ -197,19 +200,37 @@ export function init() {
                 option.value = selectedOfficer;
                 option.text = selectedOfficer;
                 selectedOfficers.appendChild(option);
+                countAssigned++;
+                console.log(unassignedOfficers.length);
+                console.log(countAssigned);
+
+                if (countAssigned > 0) {
+                    removeOfficerButton.disabled = false;
+                }
+                if (countAssigned === completeOfficerList.length) {
+                    addOfficerButton.disabled = true;
+                }
             }
         }
 
-        const removeOfficerButton = document.getElementById('removeOfficerButton');
         removeOfficerButton.onclick = () => {
             const selectedOfficer = selectedOfficers.options[selectedOfficers.selectedIndex].value;
             if (assignedOfficers.includes(selectedOfficer)) {
                 unassignedOfficers.push(selectedOfficer);
+                selectedOfficers.remove(selectedOfficers.selectedIndex);
                 assignedOfficers.splice(assignedOfficers.indexOf(selectedOfficer), 1);
                 const option = document.createElement('option');
                 option.value = selectedOfficer;
                 option.text = selectedOfficer;
                 availableOfficers.appendChild(option);
+                countAssigned--;
+
+                if (countAssigned === 0) {
+                    removeOfficerButton.disabled = true;
+                }
+                if (countAssigned < completeOfficerList.length) {
+                    addOfficerButton.disabled = false;
+                }
             }
         }
     }
