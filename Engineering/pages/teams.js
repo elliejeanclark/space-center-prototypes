@@ -119,8 +119,6 @@ const views = {
                 <div id="availableOfficersContainer">
                     <label for="availableOfficers">Available Officers</label>
                     <select id="availableOfficers">
-                        <option value="" selected disabled>Select Officers</option>
-                        ${unassignedOfficers.map(officer => `<option value="${officer}">${officer}</option>`).join('')}
                     </select>
                     <button type="button" id="addOfficerButton">Add Officer</button>
                 </div>
@@ -193,6 +191,9 @@ export function init() {
         const createTeamButton = document.getElementById('createTeamButton');
         let countAssigned = 0;
 
+        availableOfficers.innerHTML = `<option value="" selected disabled>Select Officers</option>
+            ${unassignedOfficers.map(officer => `<option value="${officer}">${officer}</option>`).join('')}`;
+
         removeOfficerButton.disabled = true;
 
         if (availableOfficers.options[availableOfficers.selectedIndex].value === "") {
@@ -214,8 +215,6 @@ export function init() {
                 option.text = selectedOfficer;
                 selectedOfficers.appendChild(option);
                 countAssigned++;
-                console.log(unassignedOfficers.length);
-                console.log(countAssigned);
 
                 if (countAssigned > 0) {
                     removeOfficerButton.disabled = false;
@@ -262,7 +261,7 @@ export function init() {
                     priority: teamPriority,
                     Status: "In Progress",
                     teamMembers: assignedOfficers
-                };
+                };  
                 addTeam(newTeam);
             } else {
                 alert("Please fill in all fields.");
