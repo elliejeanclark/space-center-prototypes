@@ -26,15 +26,13 @@ export function updateDisabledButtons() {
 const pagesWithJs = new Set(['login.html', 'damage-reports.html', 'teams.html']);
 
 const chronoDisplay = document.getElementById('chronometer');
-function updateChronometerDisplay() {
-    const time = getChronometerTime();
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    chronoDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+function handleChronoTick(currentTime) {
+    chronoDisplay.textContent = `Chronometer: ${currentTime} seconds`;
 }
+
 window.addEventListener('load', () => {
-    startChronometer();
-    updateChronometerDisplay();
+    startChronometer(handleChronoTick);
 });
 
 document.addEventListener('DOMContentLoaded', () => {

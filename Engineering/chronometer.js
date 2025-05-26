@@ -1,11 +1,11 @@
 let chronoTime = 0;
 let chronoInterval = null;
 
-export function startChronometer() {
+export function startChronometer(updateCallback) {
     if (chronoInterval === null) {
         chronoInterval = setInterval(() => {
             chronoTime++;
-            console.log(`Chronometer time: ${chronoTime} seconds`);
+            if (updateCallback) updateCallback(chronoTime);
         }, 1000);
     }
 }
