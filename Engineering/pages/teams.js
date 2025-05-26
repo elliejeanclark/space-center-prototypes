@@ -1,20 +1,4 @@
 let teamList = [
-    {
-        name: "Filler Team",
-        orders: "Fix the turbolift",
-        teamMembers: ['Officer 1', 'Officer 2', 'Officer 3'],
-        priority: "Emergency",
-        assignedSystem: "Turbolift",
-        Status: "In Progress"
-    },
-    {
-        name: "Filler Team 2",
-        orders: "Fix the replicator",
-        teamMembers: ['Officer 4', 'Officer 5'],
-        priority: "High",
-        assignedSystem: "Replicator",
-        Status: "In Progress"
-    }
 ];
 
 let systems = [
@@ -143,6 +127,7 @@ export function init() {
     function loadActiveTeams() {
         const teamContainer = document.getElementById('teamContainer');
         teamContainer.innerHTML = '';
+
         teamList.forEach(team => {
             const teamDiv = document.createElement('div');
             teamDiv.className = 'team';
@@ -159,18 +144,35 @@ export function init() {
                         <p>Status: ${team.Status}</p>
                     </div>
                     <div id="teamOptionsContainer">
-                        <button type="button" class="viewTeamButton" onclick="loadTeamView(${JSON.stringify(team)})">View Team</button>
-                        <button type="button" class="removeTeamButton" onclick="alert('Remove team functionality not implemented yet.');">Remove Team</button>
+                        <button type="button" class="viewTeamButton">View Team</button>
+                        <button type="button" class="removeTeamButton">Remove Team</button>
                     </div>
                 </div>
             `;
 
+            const viewBtn = teamDiv.querySelector('.viewTeamButton');
+            const removeBtn = teamDiv.querySelector('.removeTeamButton');
+    
+            viewBtn.addEventListener('click', () => loadTeamView(team));
+            removeBtn.addEventListener('click', () => removeTeam(team));
+    
             teamContainer.appendChild(teamDiv);
         });
+
         const createTeamButton = document.getElementById('createTeamButton');
         createTeamButton.onclick = () => {
             loadView('createTeamView');
         }
+    }
+
+    function removeTeam(team) {
+        console.log(`Removing team: ${team.name}`);
+        teamList.splice(teamList.indexOf(team), 1);
+        for (let i = 0; i < team.teamMembers.length; i++) {
+            unassignedOfficers.push(team.teamMembers[i]);
+            assignedOfficers.splice(assignedOfficers.indexOf(team.teamMembers[i]), 1);
+        }
+        loadView('activeTeams');
     }
 
     function loadTeamView(team) {
