@@ -166,7 +166,6 @@ export function init() {
     }
 
     function removeTeam(team) {
-        console.log(`Removing team: ${team.name}`);
         teamList.splice(teamList.indexOf(team), 1);
         for (let i = 0; i < team.teamMembers.length; i++) {
             unassignedOfficers.push(team.teamMembers[i]);
@@ -260,7 +259,7 @@ export function init() {
             event.preventDefault();
             const teamName = document.getElementById('teamName').value;
             const teamOrders = document.getElementById('teamOrders').value;
-            const assignedSystem = document.getElementById('assignedSystem').value;
+            const assignedSystem = document.getElementById('assignSystem').value;
             const teamPriority = document.getElementById('teamPriority').value;
 
             if (teamName && teamOrders && assignedSystem && teamPriority && countAssigned > 0) {
