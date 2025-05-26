@@ -24,12 +24,16 @@ nav button:disabled {
 nav {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
     background: linear-gradient(to right, #1c2b36, #223d4a, #2e536c);
     color: white;
     padding: 0.75rem 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #content { 
