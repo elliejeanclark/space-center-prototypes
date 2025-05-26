@@ -5,6 +5,8 @@ import {
     getChronometerTime
 } from './chronometer.js';
 
+let chronoRunning = false;
+
 export let isLoggedIn = false;
 export let officerLogin = "";
 
@@ -26,13 +28,36 @@ export function updateDisabledButtons() {
 const pagesWithJs = new Set(['login.html', 'damage-reports.html', 'teams.html']);
 
 const chronoDisplay = document.getElementById('chronometer');
+const chronoResetButton = document.getElementById('resetChronometer');
+const chronoStopButton = document.getElementById('stopChronometer');
 
 function handleChronoTick(currentTime) {
     chronoDisplay.textContent = `Chronometer: ${currentTime} seconds`;
 }
 
+chronoResetButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    resetChronometer();
+    startChronometer(handleChronoTick);
+    chronoStopButton.disabled = false;
+});
+
+chronoStopButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (chronoRunning) {
+        stopChronometer();
+        chronoStopButton.innerText = 'Resume';
+        chronoRunning = false;
+    } else {
+        startChronometer(handleChronoTick);
+        chronoStopButton.innerText = 'Stop';
+        chronoRunning = true;
+    }
+});
+
 window.addEventListener('load', () => {
     startChronometer(handleChronoTick);
+    chronoRunning = true;
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -73,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadPage('login.html');
 
-    document.querySelectorAll('nav button').forEach(button => {
+    document.querySelectorAll('nav button[data-page]').forEach(button => {
         button.addEventListener('click', () => {
             const page = button.getAttribute('data-page');
             loadPage(page);
@@ -81,4 +106,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
-
