@@ -1,4 +1,4 @@
-let teamList = [
+export let teamList = [
 ];
 
 let systems = [
@@ -268,7 +268,8 @@ export function init() {
                     orders: teamOrders,
                     assignedSystem: assignedSystem,
                     priority: teamPriority,
-                    Status: "In Progress",
+                    Status: "En Route",
+                    timeRemaining: 60, // Default time, can be adjusted
                     teamMembers: assignedOfficers
                 };  
                 addTeam(newTeam);
@@ -302,4 +303,22 @@ export function init() {
     }
 
     loadView('activeTeams');
+}
+
+export function updateTeams(time) {
+    teamList.forEach(team => {
+        if (team.Status !== "Completed") {
+            team.timeRemaining -= 1;
+            
+            if (team.timeRemaining < 50 && team.timeRemaining >= 20 && team.Status === "En Route") {
+                team.Status = "Performing Repairs";
+            }
+            else if (team.timeRemaining < 20 && team.timeRemaining > 0 && team.Status === "Performing Repairs") {
+                team.Status = "Cleaning Up";
+            }
+            else if (team.timeRemaining <= 0 && team.Status !== "Completed") {
+                team.Status = "Completed";
+            }
+        }
+    });
 }

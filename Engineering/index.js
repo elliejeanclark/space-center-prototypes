@@ -5,6 +5,8 @@ import {
     getChronometerTime
 } from './chronometer.js';
 
+import { updateTeams } from './pages/teams.js';
+
 let chronoRunning = false;
 
 export let isLoggedIn = false;
@@ -33,6 +35,7 @@ const chronoStopButton = document.getElementById('stopChronometer');
 
 function handleChronoTick(currentTime) {
     chronoDisplay.textContent = `Chronometer: ${currentTime} seconds`;
+    updateTeams(currentTime);
 }
 
 chronoResetButton.addEventListener('click', (event) => {
