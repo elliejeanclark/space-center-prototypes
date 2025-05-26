@@ -1,6 +1,30 @@
 <div id="viewContainer">
     <div id="containerOne">
         <img id="reactor" src="./pages/reactor.png" alt="reactor">
-        
+        <div id="modeContainer">
+            <div id="higherModes">
+                <button id="emergencyPower">Emergency Power</button>
+                <button id="fullPower">Full Power</button>
+            </div>
+            <div id="lowerModes">
+                <button id="powerDown">Power Down</button>
+                <button id="silentRunning">Silent Running</button>
+            </div>
+        </div>
+        <div id="reactorStatus">
+            <h2>Reactor Status</h2>
+            <p id="statusText">Status: Normal</p>
+            <p id="powerLevel">Power Level: 100%</p>
+        </div>
+        <div id="heatAndCoolContainer">
+            <p id="heatLabel">Heat Level: </p> 
+            <div id="heatBarContainer">
+                <div id="heatBar"></div>
+            </div>
+            <p id="coolantLabel">Coolant Level: </p>
+            <div id="coolantBarContainer">
+                <div id="coolantBar"></div>
+            </div>
+        </div>
     </div>
 </div>

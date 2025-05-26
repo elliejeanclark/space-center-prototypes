@@ -1,3 +1,37 @@
 #reactor {
     width: 300px;
 }
+
+#heatBarContainer {
+    width: 300px;
+    height: 30px;
+    border: 2px solid #555;
+    background-color: #111;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+  
+#heatBar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, #00f, #0ff, #ff0, #f00);
+    transition: width 0.3s ease-in-out;
+}
+
+#coolantBarContainer {
+    width: 300px;
+    height: 30px;
+    border: 2px solid #555;
+    background-color: #111;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+#coolantBar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, #0f0, #ff0, #f00);
+    transition: width 0.3s ease-in-out;
+}
