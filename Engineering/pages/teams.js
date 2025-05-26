@@ -102,8 +102,8 @@ const views = {
                     <textarea type="text" id="teamOrders" required></textarea>
                 </div>
                 <div id="systemPriority">
-                    <label for="assignedSystem">Assigned System:</label>
-                    <select id="assignedSystem">
+                    <label for="assignSystem">Assigned System:</label>
+                    <select id="assignSystem">
                         <option value="" selected disabled>Select System</option>
                         ${systems.map(system => `<option value="${system}">${system}</option>`).join('')}
                     </select>
@@ -131,6 +131,7 @@ const views = {
             </div>
             <div id="createTeamButtonContainer">
                 <button id="createTeamButton">Create Team</button>
+                <button id="cancelButton">Cancel</button>
             </div>
         </form>
     </div>`
@@ -157,12 +158,12 @@ export function init() {
                     <div id="status">
                         <p>Status: ${team.Status}</p>
                     </div>
+                    <div id="teamOptionsContainer">
+                        <button type="button" class="viewTeamButton" onclick="loadTeamView(${JSON.stringify(team)})">View Team</button>
+                        <button type="button" class="removeTeamButton" onclick="alert('Remove team functionality not implemented yet.');">Remove Team</button>
+                    </div>
                 </div>
             `;
-
-            teamDiv.onclick = () => {
-                loadTeamView(team);
-            }
 
             teamContainer.appendChild(teamDiv);
         });
@@ -195,6 +196,7 @@ export function init() {
         const selectedOfficers = document.getElementById('selectedOfficers');
         const availableOfficers = document.getElementById('availableOfficers');
         const createTeamButton = document.getElementById('createTeamButton');
+        const cancelButton = document.getElementById('cancelButton');
         let countAssigned = 0;
 
         availableOfficers.innerHTML = `<option value="" selected disabled>Select Officers</option>
@@ -272,6 +274,14 @@ export function init() {
             } else {
                 alert("Please fill in all fields.");
             }
+        }
+
+        cancelButton.onclick = (event) => {
+            event.preventDefault();
+            for (let i = 0; i < selectedOfficers.options.length; i++) {
+                unassignedOfficers.push(selectedOfficers.options[i].value);
+            }
+            loadView('activeTeams');
         }
     }
 
