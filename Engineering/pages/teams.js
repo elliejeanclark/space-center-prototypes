@@ -1,3 +1,5 @@
+import { currentView, setCurrentView } from '../index.js';
+
 export let teamList = [
 ];
 
@@ -122,186 +124,6 @@ const views = {
 }
 
 export function init() {
-    const viewContainer = document.getElementById('viewContainer');
-
-    function loadActiveTeams() {
-        const teamContainer = document.getElementById('teamContainer');
-        teamContainer.innerHTML = '';
-
-        teamList.forEach(team => {
-            const teamDiv = document.createElement('div');
-            teamDiv.className = 'team';
-            teamDiv.innerHTML = `
-                <h4>${team.name}</h4>
-                <div id="teamAttributes">
-                    <div id="orders">
-                        <p>Orders: ${team.orders}</p>
-                    </div>
-                    <div id="assignedSystem">
-                        <p>Assigned System: ${team.assignedSystem}</p>
-                    </div>
-                    <div id="status">
-                        <p>Status: ${team.Status}</p>
-                    </div>
-                    <div id="teamOptionsContainer">
-                        <button type="button" class="viewTeamButton">View Team</button>
-                        <button type="button" class="removeTeamButton">Remove Team</button>
-                    </div>
-                </div>
-            `;
-
-            const viewBtn = teamDiv.querySelector('.viewTeamButton');
-            const removeBtn = teamDiv.querySelector('.removeTeamButton');
-    
-            viewBtn.addEventListener('click', () => loadTeamView(team));
-            removeBtn.addEventListener('click', () => removeTeam(team));
-    
-            teamContainer.appendChild(teamDiv);
-        });
-
-        const createTeamButton = document.getElementById('createTeamButton');
-        createTeamButton.onclick = () => {
-            loadView('createTeamView');
-        }
-    }
-
-    function removeTeam(team) {
-        teamList.splice(teamList.indexOf(team), 1);
-        for (let i = 0; i < team.teamMembers.length; i++) {
-            unassignedOfficers.push(team.teamMembers[i]);
-            assignedOfficers.splice(assignedOfficers.indexOf(team.teamMembers[i]), 1);
-        }
-        loadView('activeTeams');
-    }
-
-    function loadTeamView(team) {
-        loadView('teamView');
-        const activeTeamContainer = document.getElementById('activeTeamContainer');
-        activeTeamContainer.innerHTML = `
-            <h2>${team.name}</h2>
-            <p>Orders: ${team.orders}</p>
-            <p>Assigned System: ${team.assignedSystem}</p>
-            <p>Priority: ${team.priority}</p>
-            <p>Status: ${team.Status}</p>
-            <p>Team Members: ${team.teamMembers.join(', ')}</p>
-        `;
-        const backButton = document.getElementById('backButton');
-        backButton.onclick = () => {
-            loadView('activeTeams');
-        };
-    }
-
-    function loadCreateTeamView() {
-        const addOfficerButton = document.getElementById('addOfficerButton');
-        const removeOfficerButton = document.getElementById('removeOfficerButton');
-        const selectedOfficers = document.getElementById('selectedOfficers');
-        const availableOfficers = document.getElementById('availableOfficers');
-        const createTeamButton = document.getElementById('createTeamButton');
-        const cancelButton = document.getElementById('cancelButton');
-        let countAssigned = 0;
-
-        availableOfficers.innerHTML = `<option value="" selected disabled>Select Officers</option>
-            ${unassignedOfficers.map(officer => `<option value="${officer}">${officer}</option>`).join('')}`;
-
-        removeOfficerButton.disabled = true;
-
-        if (availableOfficers.options[availableOfficers.selectedIndex].value === "") {
-            addOfficerButton.disabled = true;
-        }
-
-        availableOfficers.addEventListener('change', () => {
-            addOfficerButton.disabled = false;
-        });
-
-        addOfficerButton.onclick = () => {
-            const selectedOfficer = availableOfficers.options[availableOfficers.selectedIndex].value;
-            if (unassignedOfficers.includes(selectedOfficer)) {
-                assignedOfficers.push(selectedOfficer);
-                availableOfficers.remove(availableOfficers.selectedIndex);
-                unassignedOfficers.splice(unassignedOfficers.indexOf(selectedOfficer), 1);
-                const option = document.createElement('option');
-                option.value = selectedOfficer;
-                option.text = selectedOfficer;
-                selectedOfficers.appendChild(option);
-                countAssigned++;
-
-                if (countAssigned > 0) {
-                    removeOfficerButton.disabled = false;
-                }
-                if (countAssigned === completeOfficerList.length) {
-                    addOfficerButton.disabled = true;
-                }
-            }
-        }
-
-        removeOfficerButton.onclick = () => {
-            const selectedOfficer = selectedOfficers.options[selectedOfficers.selectedIndex].value;
-            if (assignedOfficers.includes(selectedOfficer)) {
-                unassignedOfficers.push(selectedOfficer);
-                selectedOfficers.remove(selectedOfficers.selectedIndex);
-                assignedOfficers.splice(assignedOfficers.indexOf(selectedOfficer), 1);
-                const option = document.createElement('option');
-                option.value = selectedOfficer;
-                option.text = selectedOfficer;
-                availableOfficers.appendChild(option);
-                countAssigned--;
-
-                if (countAssigned === 0) {
-                    removeOfficerButton.disabled = true;
-                }
-                if (countAssigned < completeOfficerList.length) {
-                    addOfficerButton.disabled = false;
-                }
-            }
-        }
-
-        createTeamButton.onclick = (event) => {
-            event.preventDefault();
-            const teamName = document.getElementById('teamName').value;
-            const teamOrders = document.getElementById('teamOrders').value;
-            const assignedSystem = document.getElementById('assignSystem').value;
-            const teamPriority = document.getElementById('teamPriority').value;
-
-            if (teamName && teamOrders && assignedSystem && teamPriority && countAssigned > 0) {
-                const newTeam = {
-                    name: teamName,
-                    orders: teamOrders,
-                    assignedSystem: assignedSystem,
-                    priority: teamPriority,
-                    Status: "En Route",
-                    timeRemaining: 60, // Default time, can be adjusted
-                    teamMembers: assignedOfficers
-                };  
-                addTeam(newTeam);
-            } else {
-                alert("Please fill in all fields.");
-            }
-        }
-
-        cancelButton.onclick = (event) => {
-            event.preventDefault();
-            for (let i = 0; i < selectedOfficers.options.length; i++) {
-                unassignedOfficers.push(selectedOfficers.options[i].value);
-            }
-            loadView('activeTeams');
-        }
-    }
-
-    function loadView(viewName) {
-        viewContainer.innerHTML = views[viewName] || `<p>View not found</p>`;
-        if (viewName === 'activeTeams') {
-            loadActiveTeams();
-        }
-        else if (viewName === 'createTeamView') {
-            loadCreateTeamView();
-        }
-    }
-
-    function addTeam(team) {
-        teamList.push(team);
-        loadView('activeTeams');
-    }
-
     loadView('activeTeams');
 }
 
@@ -312,13 +134,220 @@ export function updateTeams(time) {
             
             if (team.timeRemaining < 50 && team.timeRemaining >= 20 && team.Status === "En Route") {
                 team.Status = "Performing Repairs";
+                if (currentView == 'activeTeams') {
+                    const teamDivs = document.querySelectorAll('.team');
+                    teamDivs.forEach(div => {
+                        if (div.querySelector('h4').textContent === team.name) {
+                            div.querySelector('#status p').textContent = `Status: ${team.Status}`;
+                        }
+                    });
+                }
             }
             else if (team.timeRemaining < 20 && team.timeRemaining > 0 && team.Status === "Performing Repairs") {
                 team.Status = "Cleaning Up";
+                if (currentView == 'activeTeams') {
+                    const teamDivs = document.querySelectorAll('.team');
+                    teamDivs.forEach(div => {
+                        if (div.querySelector('h4').textContent === team.name) {
+                            div.querySelector('#status p').textContent = `Status: ${team.Status}`;
+                        }
+                    });
+                }
             }
             else if (team.timeRemaining <= 0 && team.Status !== "Completed") {
                 team.Status = "Completed";
+                if (currentView == 'activeTeams') {
+                    const teamDivs = document.querySelectorAll('.team');
+                    teamDivs.forEach(div => {
+                        if (div.querySelector('h4').textContent === team.name) {
+                            div.querySelector('#status p').textContent = `Status: ${team.Status}`;
+                        }
+                    });
+                }
             }
         }
     });
+}
+
+
+function loadActiveTeams() {
+    setCurrentView('activeTeams');
+    const teamContainer = document.getElementById('teamContainer');
+    teamContainer.innerHTML = '';
+
+    teamList.forEach(team => {
+        const teamDiv = document.createElement('div');
+        teamDiv.className = 'team';
+        teamDiv.innerHTML = `
+            <h4>${team.name}</h4>
+            <div id="teamAttributes">
+                <div id="orders">
+                    <p>Orders: ${team.orders}</p>
+                </div>
+                <div id="assignedSystem">
+                    <p>Assigned System: ${team.assignedSystem}</p>
+                </div>
+                <div id="status">
+                    <p>Status: ${team.Status}</p>
+                </div>
+                <div id="teamOptionsContainer">
+                    <button type="button" class="viewTeamButton">View Team</button>
+                    <button type="button" class="removeTeamButton">Remove Team</button>
+                </div>
+            </div>
+        `;
+
+        const viewBtn = teamDiv.querySelector('.viewTeamButton');
+        const removeBtn = teamDiv.querySelector('.removeTeamButton');
+
+        viewBtn.addEventListener('click', () => loadTeamView(team));
+        removeBtn.addEventListener('click', () => removeTeam(team));
+
+        teamContainer.appendChild(teamDiv);
+    });
+
+    const createTeamButton = document.getElementById('createTeamButton');
+    createTeamButton.onclick = () => {
+        loadView('createTeamView');
+    }
+}
+
+function removeTeam(team) {
+    teamList.splice(teamList.indexOf(team), 1);
+    for (let i = 0; i < team.teamMembers.length; i++) {
+        unassignedOfficers.push(team.teamMembers[i]);
+        assignedOfficers.splice(assignedOfficers.indexOf(team.teamMembers[i]), 1);
+    }
+    loadView('activeTeams');
+}
+
+function loadTeamView(team) {
+    setCurrentView('teamView');
+    loadView('teamView');
+    const activeTeamContainer = document.getElementById('activeTeamContainer');
+    activeTeamContainer.innerHTML = `
+        <h2>${team.name}</h2>
+        <p>Orders: ${team.orders}</p>
+        <p>Assigned System: ${team.assignedSystem}</p>
+        <p>Priority: ${team.priority}</p>
+        <p>Status: ${team.Status}</p>
+        <p>Team Members: ${team.teamMembers.join(', ')}</p>
+    `;
+    const backButton = document.getElementById('backButton');
+    backButton.onclick = () => {
+        loadView('activeTeams');
+    };
+}
+
+function loadCreateTeamView() {
+    setCurrentView('createTeamView');
+    const addOfficerButton = document.getElementById('addOfficerButton');
+    const removeOfficerButton = document.getElementById('removeOfficerButton');
+    const selectedOfficers = document.getElementById('selectedOfficers');
+    const availableOfficers = document.getElementById('availableOfficers');
+    const createTeamButton = document.getElementById('createTeamButton');
+    const cancelButton = document.getElementById('cancelButton');
+    let countAssigned = 0;
+
+    availableOfficers.innerHTML = `<option value="" selected disabled>Select Officers</option>
+        ${unassignedOfficers.map(officer => `<option value="${officer}">${officer}</option>`).join('')}`;
+
+    removeOfficerButton.disabled = true;
+
+    if (availableOfficers.options[availableOfficers.selectedIndex].value === "") {
+        addOfficerButton.disabled = true;
+    }
+
+    availableOfficers.addEventListener('change', () => {
+        addOfficerButton.disabled = false;
+    });
+
+    addOfficerButton.onclick = () => {
+        const selectedOfficer = availableOfficers.options[availableOfficers.selectedIndex].value;
+        if (unassignedOfficers.includes(selectedOfficer)) {
+            assignedOfficers.push(selectedOfficer);
+            availableOfficers.remove(availableOfficers.selectedIndex);
+            unassignedOfficers.splice(unassignedOfficers.indexOf(selectedOfficer), 1);
+            const option = document.createElement('option');
+            option.value = selectedOfficer;
+            option.text = selectedOfficer;
+            selectedOfficers.appendChild(option);
+            countAssigned++;
+
+            if (countAssigned > 0) {
+                removeOfficerButton.disabled = false;
+            }
+            if (countAssigned === completeOfficerList.length) {
+                addOfficerButton.disabled = true;
+            }
+        }
+    }
+
+    removeOfficerButton.onclick = () => {
+        const selectedOfficer = selectedOfficers.options[selectedOfficers.selectedIndex].value;
+        if (assignedOfficers.includes(selectedOfficer)) {
+            unassignedOfficers.push(selectedOfficer);
+            selectedOfficers.remove(selectedOfficers.selectedIndex);
+            assignedOfficers.splice(assignedOfficers.indexOf(selectedOfficer), 1);
+            const option = document.createElement('option');
+            option.value = selectedOfficer;
+            option.text = selectedOfficer;
+            availableOfficers.appendChild(option);
+            countAssigned--;
+
+            if (countAssigned === 0) {
+                removeOfficerButton.disabled = true;
+            }
+            if (countAssigned < completeOfficerList.length) {
+                addOfficerButton.disabled = false;
+            }
+        }
+    }
+
+    createTeamButton.onclick = (event) => {
+        event.preventDefault();
+        const teamName = document.getElementById('teamName').value;
+        const teamOrders = document.getElementById('teamOrders').value;
+        const assignedSystem = document.getElementById('assignSystem').value;
+        const teamPriority = document.getElementById('teamPriority').value;
+
+        if (teamName && teamOrders && assignedSystem && teamPriority && countAssigned > 0) {
+            const newTeam = {
+                name: teamName,
+                orders: teamOrders,
+                assignedSystem: assignedSystem,
+                priority: teamPriority,
+                Status: "En Route",
+                timeRemaining: 60, // Default time, can be adjusted
+                teamMembers: assignedOfficers
+            };  
+            addTeam(newTeam);
+        } else {
+            alert("Please fill in all fields.");
+        }
+    }
+
+    cancelButton.onclick = (event) => {
+        event.preventDefault();
+        for (let i = 0; i < selectedOfficers.options.length; i++) {
+            unassignedOfficers.push(selectedOfficers.options[i].value);
+        }
+        loadView('activeTeams');
+    }
+}
+
+function loadView(viewName) {
+    const viewContainer = document.getElementById('viewContainer');
+    viewContainer.innerHTML = views[viewName] || `<p>View not found</p>`;
+    if (viewName === 'activeTeams') {
+        loadActiveTeams();
+    }
+    else if (viewName === 'createTeamView') {
+        loadCreateTeamView();
+    }
+}
+
+function addTeam(team) {
+    teamList.push(team);
+    loadView('activeTeams');
 }

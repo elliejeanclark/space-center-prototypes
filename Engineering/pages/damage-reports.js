@@ -1,7 +1,11 @@
+import { currentView, setCurrentView } from '../index.js';
+
 let currStepCount = 1;
 let damageReportLength = 10;
 
 export function init() {
+    setCurrentView('damage-reports');
+
     const nextStepButton = document.getElementById('nextStep');
     const previousStepButton = document.getElementById('previousStep');
     const currentStep = document.getElementById('activeStep');

@@ -11,6 +11,7 @@ let chronoRunning = false;
 
 export let isLoggedIn = false;
 export let officerLogin = "";
+export let currentView = 'index';
 
 export function setLoggedIn(value) {
     isLoggedIn = value;
@@ -18,6 +19,10 @@ export function setLoggedIn(value) {
 
 export function setOfficerLogin(value) {
     officerLogin = value;
+}
+
+export function setCurrentView(view) {
+    currentView = view;
 }
 
 export function updateDisabledButtons() {
